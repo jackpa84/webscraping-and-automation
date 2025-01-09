@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "webscraping-and-automation"
+version = "0.1.0"
+description = ""
+authors = ["jackpa84 <jackpa1984@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+schedule = "^1.2.2"
+beautifulsoup4 = "^4.12.3"
+requests = "^2.32.3"
+selenium = "^4.27.1"
+webdriver-manager = "^4.0.2"
+chromedriver-autoinstaller = "^0.6.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
