@@ -7,9 +7,10 @@ from selenium.webdriver.support.ui import Select
 from datetime import datetime
 import time
 
-from rpa.scraping.utils import extract_link_from_onclick
-from rpa.config.setting import (
+from backend.etl.scraping.utils import extract_link_from_onclick
+from backend.etl.config.setting import (
     BASE_URL,
+    BASE_URL_DJE,
     DATE_FORMAT,
     SEARCH_KEYWORDS,
     JOURNAL_NAME,
@@ -53,12 +54,12 @@ class Scraper:
         search_button = self.driver.find_element(By.XPATH, "//input[@value='Pesquisar']")
         search_button.click()
 
-    def scrape_results(self):
+    def scrape_links(self):
         wait = WebDriverWait(self.driver, MAX_WAIT_TIME)
         page = 1
+        first_link = None
 
         while True:
-            print(f"\nCapturando links na página {page}...")
             rows = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "table tr.fundocinza1")))
 
             for idx, row in enumerate(rows, start=1):
@@ -68,9 +69,11 @@ class Scraper:
                     link = extract_link_from_onclick(onclick_attr)
                     if link and link not in self.links:
                         self.links.add(link)
-                        print(f"Resultado capturado (página {page}, linha {idx}): {link}")
+                        if not first_link:
+                            first_link = f"{BASE_URL_DJE}{link}"
+                        print(f"Captured (page {page}, line {idx}): {link}")
                 except Exception as e:
-                    print(f"Erro ao processar a linha {idx} na página {page}: {e}")
+                    print(f"Error processing line {idx} on page {page}: {e}")
 
             try:
                 next_button = self.driver.find_element(By.XPATH, "//a[contains(text(), 'Próximo')]")
@@ -79,16 +82,15 @@ class Scraper:
                     page += 1
                     time.sleep(5)
                 else:
-                    print("Botão de próxima página desativado ou não encontrado. Fim da paginação.")
                     break
             except Exception:
-                print("Botão de próxima página não encontrado. Fim da paginação.")
                 break
 
-        print(f"\nTotal de links capturados: {len(self.links)}")
-        for link in self.links:
-            print(link)
+        if first_link:
+            self.driver.get(first_link)
+            print(f"Accessing first link: {first_link}")
+        else:
+            print("No links captured.")
 
     def close(self):
-        """Fecha o navegador."""
         self.driver.quit()

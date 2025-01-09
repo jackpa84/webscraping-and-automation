@@ -1,0 +1,13 @@
+.idea
+__pycache__
+*.pyc
+*.pyo
+*.so
+*.egg-info
+*.egg
+*.pyclass
+
+# Directories
+build
+dist
+htmlcov

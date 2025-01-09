@@ -1,9 +1,9 @@
 services:
   rpa:
     build:
-      context: ./rpa
+      context: etl
       dockerfile: ../docker/rpa/Dockerfile
     container_name: rpa_service
     volumes:
-      - ./rpa:/app
+      - ./etl:/app
     command: ["poetry", "run", "python", "main.py"]

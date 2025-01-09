@@ -21,7 +21,7 @@ def main():
     try:
         scraper.open_page()
         scraper.setup_filters()
-        scraper.scrape_results()
+        scraper.scrape_links()
     finally:
         input("Pressione Enter para fechar o navegador...")
         scraper.close()
