@@ -6,7 +6,7 @@ __pycache__
 *.egg-info
 *.egg
 *.pyclass
-
+docker/mongodb/*
 # Directories
 build
 dist

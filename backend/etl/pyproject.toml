@@ -11,12 +11,10 @@ schedule = "^1.2.2"
 beautifulsoup4 = "^4.12.3"
 requests = "^2.32.3"
 selenium = "^4.27.1"
-webdriver-manager = "^4.0.2"
 chromedriver-autoinstaller = "^0.6.4"
 selenium-wire = "^5.1.0"
 blinker = "1.4"
 pypdf2 = "^3.0.1"
-
 
 [build-system]
 requires = ["poetry-core"]
