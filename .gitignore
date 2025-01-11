@@ -13,3 +13,4 @@ dist
 htmlcov
 backend/etl/tmp/*
 backend/etl/venv/*
+frontend/node_modules/

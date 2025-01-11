@@ -1,14 +1,4 @@
 services:
-  etl:
-    build:
-      context: .
-      dockerfile: ./docker/etl/Dockerfile
-    container_name: etl
-    volumes:
-      - ./backend/etl:/app
-      - /dev/shm:/dev/shm
-    command: [ "poetry", "run", "python", "main.py" ]
-
   mongodb:
     image: mongo:6.0
     container_name: db
@@ -22,14 +12,22 @@ services:
     volumes:
       - ./docker/mongodb:/data/db
 
+  etl:
+    build:
+      context: .
+      dockerfile: ./docker/etl/Dockerfile
+    container_name: etl
+    volumes:
+      - ./backend/etl:/app
+      - /dev/shm:/dev/shm
+    command: [ "poetry", "run", "python", "main.py" ]
+    depends_on:
+      - mongodb
 
-  #  frontend:
-  #    build: ./docker/frontend
-  #    container_name: frontend
-  #    ports:
-  #      - '3000:3000'
-  #    volumes:
-  #      - ./frontend:/app
-  ##      - /app/node_modules
-  #    environment:
-  #      - CHOKIDAR_USEPOLLING=true
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    container_name: frontend
+    ports:
+      - "5173:5173"
