@@ -1,9 +1,35 @@
 services:
-  rpa:
-    build:
-      context: etl
-      dockerfile: ../docker/rpa/Dockerfile
-    container_name: rpa_service
+  mongodb:
+    image: mongo:6.0
+    container_name: db
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: juscash
     volumes:
-      - ./etl:/app
-    command: ["poetry", "run", "python", "main.py"]
+      - ./docker/mongodb:/data/db
+
+  etl:
+    build:
+      context: .
+      dockerfile: ./docker/etl/Dockerfile
+    container_name: etl
+    volumes:
+      - ./backend/etl:/app
+      - /dev/shm:/dev/shm
+    command: [ "poetry", "run", "python", "main.py" ]
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    container_name: frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"

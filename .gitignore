@@ -6,8 +6,11 @@ __pycache__
 *.egg-info
 *.egg
 *.pyclass
-
+docker/mongodb/*
 # Directories
 build
 dist
 htmlcov
+backend/etl/tmp/*
+backend/etl/venv/*
+frontend/node_modules/
