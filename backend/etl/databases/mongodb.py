@@ -1,6 +1,8 @@
-from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure
 import os
+from datetime import datetime
+
+from pymongo import MongoClient
+
 
 def get_mongo_client():
     username = os.getenv('MONGO_INITDB_ROOT_USERNAME', 'admin')
@@ -14,10 +16,17 @@ def get_mongo_client():
     client.admin.command('ping')
     return client
 
+
 client = get_mongo_client()
 db = client['juscash']
 collection = db['processes']
 
+
 def add_process(process):
+    # Adiciona os timestamps ao documento
+    process['created_at'] = datetime.utcnow()
+    process['updated_at'] = datetime.utcnow()
+
+    # Insere o documento no MongoDB
     result = collection.insert_one(process)
     print(f"Inserted process with ID: {result.inserted_id}")

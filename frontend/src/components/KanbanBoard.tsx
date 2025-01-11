@@ -27,10 +27,10 @@ interface ActiveTask {
 const KanbanBoard: React.FC = () => {
   // Estado das colunas iniciais
   const [columns, setColumns] = useState<Column[]>([
-    { id: 'col-1', title: 'Backlog', tasks: [{ id: '1', title: 'Tarefa 1' }] },
-    { id: 'col-2', title: 'To Do', tasks: [{ id: '2', title: 'Tarefa 2' }] },
-    { id: 'col-3', title: 'In Progress', tasks: [{ id: '3', title: 'Tarefa 3' }] },
-    { id: 'col-4', title: 'Done', tasks: [{ id: '4', title: 'Tarefa 4' }] },
+    { id: 'col-1', title: 'Novas Publicações', tasks: [{ id: '1', title: 'Tarefa 1' }] },
+    { id: 'col-2', title: 'Publicações Lidas', tasks: [{ id: '2', title: 'Tarefa 2' }] },
+    { id: 'col-3', title: 'Enviar para Advogado responsavel', tasks: [{ id: '3', title: 'Tarefa 3' }] },
+    { id: 'col-4', title: 'Concluído', tasks: [{ id: '4', title: 'Tarefa 4' }] },
   ]);
 
   // Estado para o item ativo no arraste

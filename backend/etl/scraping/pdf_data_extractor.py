@@ -1,10 +1,13 @@
 import os
 import re
+from decimal import Decimal
+from typing import Optional, Match
 from PyPDF2 import PdfReader
 from databases.mongodb import add_process
 
 class PDFDataExtractor:
-    STATUS_NEW = "NEW"
+    STATUS_NEW = "nova"
+    DEFENDANT = "Instituto Nacional do Seguro Social - INSS"
 
     def __init__(self, pdf_path):
         self.pdf_path = pdf_path
@@ -42,6 +45,13 @@ class PDFDataExtractor:
                 print(processes)
         return processes
 
+    def extract_decimal(self, pattern: str, process_text: str) -> Optional[float]:
+        match: Optional[Match[str]] = re.search(pattern, process_text)
+        if match:
+            value = match.group(1).replace('.', '').replace(',', '.')
+            return float(value)  # Converte para float
+        return None
+
     def _extract_details(self, process_text):
         data = {}
 
@@ -54,29 +64,23 @@ class PDFDataExtractor:
         lawyer_match = re.search(r"- ADV:\s([^\(]+)\s\(OAB", process_text)
         data["lawyers"] = lawyer_match.group(1).strip() if lawyer_match else None
 
-        principal_match = re.search(r"R\$ (\d{1,3}(?:\.\d{3})*,\d{2}) - principal bruto/ líquido", process_text)
-        data["gross_net_principal_amount"] = principal_match.group(1) if principal_match else None
-
-        juros_match = re.search(r"R\$ (\d{1,3}(?:\.\d{3})*,\d{2}) - juros moratórios", process_text)
-        data["late_interest_amount"] = juros_match.group(1) if juros_match else None
-
-        honorarios_match = re.search(r"R\$ (\d{1,3}(?:\.\d{3})*,\d{2}) - honorários a dvocatícios", process_text)
-        data["attorney_fees"] = honorarios_match.group(1) if honorarios_match else None
+        data["gross_net_principal_amount"] = self.extract_decimal(
+            r"R\$ (\d{1,3}(?:\.\d{3})*,\d{2})\s*-\s*principal\s+bruto/\s+líquido", process_text)
+        data["late_interest_amount"] = self.extract_decimal(
+            r"R\$ (\d{1,3}(?:\.\d{3})*,\d{2})\s*-\s*juros\s+moratórios", process_text)
+        data["attorney_fees"] = self.extract_decimal(
+            r"R\$ (\d{1,3}(?:\.\d{3})*,\d{2})\s*-\s*honorários\s+advocatícios", process_text)
 
         data["status"] = self.STATUS_NEW
-
+        data["defendant"] = self.DEFENDANT
         data["content"] = process_text.strip()
 
         return data
 
+
 if __name__ == "__main__":
     directory_path = "../tmp"
-    file_paths = []
     for filename in os.listdir(directory_path):
         file_path = os.path.join(directory_path, filename)
         print(file_path)
-        pdf_path = file_path
-        PDFDataExtractor(pdf_path)
-
-
-
+        PDFDataExtractor(file_path)
