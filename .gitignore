@@ -11,3 +11,4 @@ docker/mongodb/*
 build
 dist
 htmlcov
+backend/etl/tmp/*

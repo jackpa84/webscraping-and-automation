@@ -7,15 +7,21 @@ from scraping.pdf_data_extractor import PDFDataExtractor
 from scraping.pdf_downloader import PDFDownloader
 from scraping.scraper import Scraper
 
-
-def main():
+def get_links():
     scraper = Scraper()
-
-    pdf_downloader = PDFDownloader()
     try:
         scraper.open_page()
         scraper.setup_filters()
-        links = scraper.scrape_links()
+        return scraper.scrape_links()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        scraper.close()
+
+def main():
+    links = get_links()
+    pdf_downloader = PDFDownloader()
+    try:
         if len(links) > 0:
             print(f"Total de links para download: {len(links)}")
             for idx, link in enumerate(links):
@@ -23,26 +29,18 @@ def main():
                 save_path = os.path.join(os.getcwd(), path)
                 pdf_downloader.download_pdf(link, save_path)
                 PDFDataExtractor(path)
-                pdf_downloader.remove_file(save_path)
+                # pdf_downloader.remove_file(save_path)
 
         else:
             print("Nenhum link encontrado para download.")
     finally:
-        scraper.close()
         pdf_downloader.close()
 
     print("Processo concluido.")
 
-
-# def minha_tarefa():
-#     print("Executando tarefa...")
+#UTC
+# schedule.every().day.at("23:10").do(main)
 #
-# # Agenda a tarefa para executar a cada 15 minutos
-# schedule.every(15).minutes.do(minha_tarefa)
-#
-# print("Agendamento iniciado. Pressione Ctrl+C para encerrar.")
-#
-# # Loop infinito para manter o agendamento rodando
 # while True:
 #     schedule.run_pending()
 #     time.sleep(1)

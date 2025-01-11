@@ -29,8 +29,7 @@ class PDFDownloader:
             del self.driver.requests
             self.driver.get(url)
             print(f"Navigating to {url}")
-            time.sleep(10)
-            pdf_url = None
+            time.sleep(5)
             for request in self.driver.requests:
                 if request.response:
                     content_type = request.response.headers.get('Content-Type', '')
