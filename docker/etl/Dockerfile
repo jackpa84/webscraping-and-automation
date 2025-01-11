@@ -1,9 +1,9 @@
 FROM python:3.11-slim
 
-# Define o diretório de trabalho
+# Set the working directory
 WORKDIR /app
 
-# Instala dependências do sistema
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
     gnupg \
@@ -47,29 +47,29 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Adiciona o repositório do Google Chrome e instala o Chrome
+# Add the Google Chrome repository and install Chrome
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
     && apt-get update && apt-get install -y google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
 
-# Atualiza o pip e instala o Poetry
+# Upgrade pip and install Poetry
 RUN pip install --upgrade pip \
     && pip install poetry
 
-# Copia os arquivos de dependências
+# Copy dependency files
 COPY ./backend/etl/pyproject.toml /app/
 COPY ./backend/etl/poetry.lock /app/
 
-# Instala as dependências do Python
+# Install Python dependencies
 RUN poetry config virtualenvs.create false \
-    && poetry install --only main --no-root
+    && poetry install --no-root
 
-# Copia o restante do código da aplicação
+# Copy the rest of the application code
 COPY ./backend/etl/ /app
 
-# Define a variável de ambiente para o Chrome headless
+# Set environment variable for Chrome headless
 ENV GOOGLE_CHROME_BIN=/usr/bin/google-chrome
 
-# Executa a aplicação
+# Define the default command to run the application
 CMD ["poetry", "run", "python", "main.py"]

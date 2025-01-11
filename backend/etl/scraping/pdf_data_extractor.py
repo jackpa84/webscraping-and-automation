@@ -1,6 +1,7 @@
 import os
 import re
 from PyPDF2 import PdfReader
+from databases.mongodb import add_process
 
 class PDFDataExtractor:
     STATUS_NEW = "NEW"
@@ -37,6 +38,7 @@ class PDFDataExtractor:
             process_data = self._extract_details(match)
             if all(value is not None for value in process_data.values()):
                 processes.append(process_data)
+                add_process(processes[0])
                 print(processes)
         return processes
 
