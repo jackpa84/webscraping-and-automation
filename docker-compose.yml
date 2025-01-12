@@ -1,5 +1,5 @@
 services:
-  mongodb:
+  db:
     image: mongo:6.0
     container_name: db
     restart: unless-stopped
@@ -11,6 +11,8 @@ services:
       MONGO_INITDB_DATABASE: juscash
     volumes:
       - ./docker/mongodb:/data/db
+    networks:
+      - juscash
 
   etl:
     build:
@@ -22,7 +24,27 @@ services:
       - /dev/shm:/dev/shm
     command: [ "poetry", "run", "python", "main.py" ]
     depends_on:
-      - mongodb
+     - db
+    networks:
+      - juscash
+
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    container_name: api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend/api:/app
+    environment:
+      NODE_ENV: production
+      MONGO_URI: "mongodb://admin:password@db:27017/juscash?authSource=admin"
+      JWT_SECRET: "supersecretkey"
+    depends_on:
+      - db
+    networks:
+      - juscash
 
   frontend:
     build:
@@ -33,3 +55,11 @@ services:
       - ./frontend:/app
     ports:
       - "5173:5173"
+    depends_on:
+      - api
+    networks:
+      - juscash
+
+networks:
+  juscash:
+    driver: bridge

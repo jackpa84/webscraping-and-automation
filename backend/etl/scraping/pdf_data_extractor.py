@@ -1,9 +1,10 @@
 import os
 import re
-from decimal import Decimal
 from typing import Optional, Match
+
 from PyPDF2 import PdfReader
 from databases.mongodb import add_process
+
 
 class PDFDataExtractor:
     STATUS_NEW = "nova"

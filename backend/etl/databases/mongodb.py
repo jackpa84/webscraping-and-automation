@@ -23,10 +23,8 @@ collection = db['processes']
 
 
 def add_process(process):
-    # Adiciona os timestamps ao documento
     process['created_at'] = datetime.utcnow()
     process['updated_at'] = datetime.utcnow()
 
-    # Insere o documento no MongoDB
     result = collection.insert_one(process)
     print(f"Inserted process with ID: {result.inserted_id}")

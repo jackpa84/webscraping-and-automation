@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-import chromedriver_autoinstaller  # Importa o chromedriver-autoinstaller
+import chromedriver_autoinstaller
 import time
 
 from .utils import extract_link_from_onclick
