@@ -45,7 +45,8 @@ class Scraper:
     def setup_filters(self):
         wait = WebDriverWait(self.driver, self.MAX_WAIT_TIME)
 
-        current_date = datetime.now().strftime(self.DATE_FORMAT)
+        # current_date = datetime.now().strftime(self.DATE_FORMAT)
+        current_date = "07/01/2025"
         for date_field in ["dtInicioString", "dtFimString"]:
             date_input = wait.until(EC.presence_of_element_located((By.ID, date_field)))
             self.driver.execute_script("arguments[0].removeAttribute('readonly')", date_input)

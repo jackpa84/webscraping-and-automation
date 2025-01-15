@@ -1,6 +1,6 @@
 import React from 'react';
-import { Paper, Typography, Box } from '@mui/material';
-import { useDroppable } from '@dnd-kit/core';
+import {Box, Paper, Typography} from '@mui/material';
+import {useDroppable} from '@dnd-kit/core';
 import KanbanCard from './KanbanCard';
 
 interface KanbanColumnProps {
@@ -22,8 +22,8 @@ interface KanbanColumnProps {
     ) => void;
 }
 
-const KanbanColumn: React.FC<KanbanColumnProps> = ({ id, title, tasks, onCardClick }) => {
-    const { setNodeRef } = useDroppable({ id });
+const KanbanColumn: React.FC<KanbanColumnProps> = ({id, title, tasks, onCardClick}) => {
+    const {setNodeRef} = useDroppable({id});
 
     return (
         <Paper
@@ -33,13 +33,11 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ id, title, tasks, onCardCli
                 backgroundColor: '#f5f5f5',
                 border: '1px solid #e0e0e0',
                 borderRadius: '4px',
-                // Altura padrão para telas maiores
                 height: '77vh',
                 width: '100%',
                 boxShadow: '0px 4px 6px rgba(0,0,0,0.1)',
                 display: 'flex',
                 flexDirection: 'column',
-                // Em telas pequenas (ex.: smartphone) com dois headers fixos (70px cada)
                 '@media (max-width:600px)': {
                     height: 'calc(100vh - 140px)',
                 },
