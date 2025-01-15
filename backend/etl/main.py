@@ -56,7 +56,7 @@ if __name__ == "__main__":
     main()
 
     job = schedule.every().day.at("23:10").do(main)
-    print("Próxima execução agendada para: ", job.next_run)
+    print("Próxima execução as 23:10")
     while True:
         schedule.run_pending()
         time.sleep(1)
