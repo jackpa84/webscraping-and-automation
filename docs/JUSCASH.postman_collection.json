@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "ce7ac5bb-a37d-4184-8884-3823084b35f7",
+		"name": "JUSCASH",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12073875"
+	},
+	"item": [
+		{
+			"name": "LIST_CARS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODM0NDYyYWNjZmZlZjk3ZTA0NTFkZiIsInVzZXJuYW1lIjoidGVzdHVzZXIiLCJpYXQiOjE3MzY4Nzg3MDMsImV4cCI6MTczNjg4MjMwM30.1xs9VaPDVFGAbuOa3k_BCmyuz5dtbIpY2EFGbETNMZk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/auth/list-cards",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"list-cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "REGISTER",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullname\": \"Nome Completo\",\n    \"email\": \"usuario@example.com\",\n    \"password\": \"senhaSegura\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:3000/auth/register \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"username\": \"testuser\",\n  \"password\": \"mypassword\"\n}'\n"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"testuser\",\n  \"password\": \"mypassword\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:3000/auth/login \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"username\": \"testuser\",\n  \"password\": \"mypassword\"\n}'\n"
+			},
+			"response": []
+		},
+		{
+			"name": "STATUS PROCESS",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODM0NDYyYWNjZmZlZjk3ZTA0NTFkZiIsInVzZXJuYW1lIjoidGVzdHVzZXIiLCJpYXQiOjE3MzY3Nzk3MzcsImV4cCI6MTczNjc4MzMzN30.AAxW7TzLq7hKBxMLM2KevOtPW6VHm0YELoSuw6nrHvw"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"status\": \"lida\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/processes/678450185ff6101ca1d0ef40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"processes",
+						"678450185ff6101ca1d0ef40"
+					]
+				},
+				"description": "Generated from cURL: curl -X PUT \"http://localhost:3000/processes/678450185ff6101ca1d0ef40\" \\\n  -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODM0NDYyYWNjZmZlZjk3ZTA0NTFkZiIsInVzZXJuYW1lIjoidGVzdHVzZXIiLCJpYXQiOjE3MzY3Nzk3MzcsImV4cCI6MTczNjc4MzMzN30.AAxW7TzLq7hKBxMLM2KevOtPW6VHm0YELoSuw6nrHvw\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"status\": \"lida\"}'\n"
+			},
+			"response": []
+		}
+	]
+}
