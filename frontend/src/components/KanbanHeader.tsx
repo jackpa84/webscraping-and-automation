@@ -17,13 +17,33 @@ const KanbanHeader: React.FC<KanbanHeaderProps> = ({ onSearch }) => {
 
     return (
         <AppBar position="static" color="transparent" elevation={1}>
-            <Toolbar style={{ justifyContent: 'space-between', padding: '15px 16px' }}>
-                <Typography variant="h4" style={{ color: '#072854' }}>
+            <Toolbar
+                sx={{
+                    justifyContent: 'space-between',
+                    p: { xs: '10px 12px', sm: '15px 16px' },
+                    flexDirection: { xs: 'column', sm: 'row' }, // para alinhar verticalmente no mobile
+                    gap: { xs: 2, sm: 0 },
+                }}
+            >
+                <Typography variant="h4" sx={{ color: '#072854', alignSelf: { xs: 'center', sm: 'auto' } }}>
                     Publicações
                 </Typography>
-                <Box display="flex" alignItems="center" gap="16px" flexWrap="wrap">
-                    <Box display="flex" flexDirection="column">
-                        <Typography variant="body2" style={{ marginBottom: '4px', color: '#072854', fontWeight: 'bold' }}>
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        flexWrap: 'wrap',
+                        width: { xs: '100%', sm: 'auto' },
+                        justifyContent: { xs: 'center', sm: 'flex-end' },
+                    }}
+                >
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ mb: 0.5, color: '#072854', fontWeight: 'bold', fontSize: { xs: '0.8rem', sm: 'inherit' } }}
+                        >
                             Pesquisar
                         </Typography>
                         <TextField
@@ -32,11 +52,19 @@ const KanbanHeader: React.FC<KanbanHeaderProps> = ({ onSearch }) => {
                             placeholder="Digite o número do processo ou nome"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            style={{ backgroundColor: '#fff', borderRadius: '4px', width: '300px' }}
+                            sx={{
+                                backgroundColor: '#fff',
+                                borderRadius: '4px',
+                                width: { xs: '250px', sm: '300px' },
+                            }}
                         />
                     </Box>
-                    <Box display="flex" flexDirection="column">
-                        <Typography variant="body2" style={{ marginBottom: '4px', color: '#072854', fontWeight: 'bold' }}>
+
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ mb: 0.5, color: '#072854', fontWeight: 'bold', fontSize: { xs: '0.8rem', sm: 'inherit' } }}
+                        >
                             De
                         </Typography>
                         <TextField
@@ -45,12 +73,20 @@ const KanbanHeader: React.FC<KanbanHeaderProps> = ({ onSearch }) => {
                             size="small"
                             value={fromDate}
                             onChange={(e) => setFromDate(e.target.value)}
-                            style={{ backgroundColor: '#fff', borderRadius: '4px', width: '150px' }}
+                            sx={{
+                                backgroundColor: '#fff',
+                                borderRadius: '4px',
+                                width: { xs: '120px', sm: '150px' },
+                            }}
                             InputLabelProps={{ shrink: true }}
                         />
                     </Box>
-                    <Box display="flex" flexDirection="column">
-                        <Typography variant="body2" style={{ marginBottom: '4px', color: '#072854', fontWeight: 'bold' }}>
+
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ mb: 0.5, color: '#072854', fontWeight: 'bold', fontSize: { xs: '0.8rem', sm: 'inherit' } }}
+                        >
                             Até
                         </Typography>
                         <TextField
@@ -59,25 +95,31 @@ const KanbanHeader: React.FC<KanbanHeaderProps> = ({ onSearch }) => {
                             size="small"
                             value={toDate}
                             onChange={(e) => setToDate(e.target.value)}
-                            style={{ backgroundColor: '#fff', borderRadius: '4px', width: '150px' }}
+                            sx={{
+                                backgroundColor: '#fff',
+                                borderRadius: '4px',
+                                width: { xs: '120px', sm: '150px' },
+                            }}
                             InputLabelProps={{ shrink: true }}
                         />
                     </Box>
-                    <Box display="flex" alignItems="center">
-                        <IconButton
-                            color="primary"
-                            onClick={handleSearch}
-                            style={{
-                                backgroundColor: '#4CAF50',
-                                borderRadius: '4px',
-                                height: '40px',
-                                width: '40px',
-                                marginTop: '16px',
-                            }}
-                        >
-                            <SearchIcon style={{ color: '#fff' }} />
-                        </IconButton>
-                    </Box>
+
+                    <IconButton
+                        color="primary"
+                        onClick={handleSearch}
+                        sx={{
+                            backgroundColor: '#4CAF50',
+                            borderRadius: '4px',
+                            height: '40px',
+                            width: '40px',
+                            mt: { xs: 1, sm: 0 },
+                            '&:hover': {
+                                backgroundColor: '#43A047',
+                            },
+                        }}
+                    >
+                        <SearchIcon sx={{ color: '#fff' }} />
+                    </IconButton>
                 </Box>
             </Toolbar>
         </AppBar>
