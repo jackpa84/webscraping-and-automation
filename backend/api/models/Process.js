@@ -13,7 +13,7 @@ const processesSchema = new mongoose.Schema(
         content: { type: String, required: true },
     },
     {
-        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+        timestamps: { availability_date: 'availability_date', createdAt: 'created_at', updatedAt: 'updated_at' },
         collection: 'processes',
     }
 );

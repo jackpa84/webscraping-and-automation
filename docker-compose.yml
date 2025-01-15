@@ -1,8 +1,7 @@
 services:
-  db:
+  database:
     image: mongo:6.0
-    container_name: db
-    restart: unless-stopped
+    container_name: database
     ports:
       - "27017:27017"
     environment:
@@ -24,7 +23,7 @@ services:
       - /dev/shm:/dev/shm
     command: [ "poetry", "run", "python", "main.py" ]
     depends_on:
-     - db
+     - database
     networks:
       - juscash
 
@@ -37,12 +36,8 @@ services:
       - "3000:3000"
     volumes:
       - ./backend/api:/app
-    environment:
-      NODE_ENV: production
-      MONGO_URI: "mongodb://admin:password@db:27017/juscash?authSource=admin"
-      JWT_SECRET: "supersecretkey"
     depends_on:
-      - db
+      - database
     networks:
       - juscash
 
@@ -53,6 +48,8 @@ services:
     container_name: frontend
     volumes:
       - ./frontend:/app
+    environment:
+      - VITE_API_BASE_URL=http://localhost:3000
     ports:
       - "5173:5173"
     depends_on:

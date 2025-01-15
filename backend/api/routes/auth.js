@@ -7,27 +7,27 @@ const Process = require('../models/Process');
 const router = express.Router();
 
 const generateToken = (user) => {
-  return jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, {
+  return jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
     expiresIn: '1h',
   });
 };
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { fullname, email, password } = req.body;
 
-    if (!username || !password) {
-      return res.status(400).json({ error: 'Username and password are required' });
+    if (!fullname || !email || !password) {
+      return res.status(400).json({ error: 'Fullname, email, and password are required' });
     }
 
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: 'Username already exists' });
+      return res.status(400).json({ error: 'Email already exists' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ username, password: hashedPassword });
+    const newUser = new User({ fullname, email, password: hashedPassword });
     await newUser.save();
 
     const token = generateToken(newUser);
@@ -40,20 +40,20 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
-      return res.status(400).json({ error: 'Username and password are required' });
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const token = generateToken(user);
@@ -88,5 +88,16 @@ router.get('/list-cards', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+router.put('/processes/:id', authenticateToken, async (req, res) => {
+  try {
+    const { status } = req.body;
+    const updatedProcess = await Process.findByIdAndUpdate(req.params.id, { status }, { new: true });
+    res.status(200).json(updatedProcess);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 module.exports = router;
