@@ -1,11 +1,12 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
-import chromedriver_autoinstaller  # Importa o chromedriver-autoinstaller
 import time
 
+import chromedriver_autoinstaller
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait, Select
+from datetime import datetime
 from .utils import extract_link_from_onclick
 
 
@@ -44,8 +45,7 @@ class Scraper:
     def setup_filters(self):
         wait = WebDriverWait(self.driver, self.MAX_WAIT_TIME)
 
-        # current_date = datetime.now().strftime(self.DATE_FORMAT)
-        current_date = "14/11/2024"
+        current_date = datetime.now().strftime(self.DATE_FORMAT)
         for date_field in ["dtInicioString", "dtFimString"]:
             date_input = wait.until(EC.presence_of_element_located((By.ID, date_field)))
             self.driver.execute_script("arguments[0].removeAttribute('readonly')", date_input)

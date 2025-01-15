@@ -72,9 +72,3 @@ class PDFDownloader:
     def close(self):
         self.driver.quit()
 
-
-if __name__ == "__main__":
-    pdf_downloader = PDFDownloader()
-    pdf_downloader.download_pdf(
-        "https://dje.tjsp.jus.br//cdje/consultaSimples.do?cdVolume=19&nuDiario=4093&cdCaderno=12&nuSeqpagina=3870",
-        "tmp/downloaded_document.pdf")
