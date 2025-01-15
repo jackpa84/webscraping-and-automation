@@ -294,7 +294,7 @@ docker compose up -d
 
 ---
 
-# 7. 'Resumo
+# 7. Resumo
 
 ## Coleção Postman
 - A coleção Postman com todos os endpoints está disponível na pasta `docs`.
